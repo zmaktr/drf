@@ -18,6 +18,8 @@ def api_home(request, *args, **kwargs):
     serializer = ProductsSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         return Response(serializer.data)
+
+        
     return JsonResponse({"invalid" : "change the data input"})
 
     # print(dir(request))
