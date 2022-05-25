@@ -4,8 +4,12 @@ from django.http import JsonResponse
 from django.http import HttpResponse
 from django.forms.models import model_to_dict
 from products.models import Products
+
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+
+from products.serializers import ProductsSerializer
+
 
 @api_view(["POST"])
 def api_home(request, *args, **kwargs):  
@@ -31,18 +35,36 @@ def api_home(request, *args, **kwargs):
     # data['headers']         = dict(request.headers)
     # data['content_type']    = request.content_type
 
-    model_data = Products.objects.all().order_by("?").first()
-    
-    data = {}
+    # model_data = Products.objects.all().order_by("?").first()
+    # instance = Products.objects.all().order_by("?").first()
+    # data = {}
+    # data = request.POST
+    # data = {}
+    data ={}
+    print(request.data)
+    serializer = ProductsSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        # instance = serializer.save()
+        # print(instance)
+        # print(serializer.data)
+        # instance = serializer.save()
+        # print(instance)
+        # print(serializer.data)
+        # data = instance
+    # serializer = ProductsSerializer(data.request.data)
+        return Response(serializer.data)
+    return JsonResponse({"invalid" : "change the data input"})
+        # return Response(serializer.data)
 
-    if model_data:
-        # data['id'] = model_data.id
-        # data['title'] = model_data.title
-        # data['content'] = model_data.content
-        # data['price'] = model_data.price
-        # data = model_to_dict(model_data)
-        data = model_to_dict(model_data, fields=['id', 'title', 'content', 'price'])
-        # json_data_string = json.dumps(data)
+    # if instance:
+    #     # data['id'] = model_data.id
+    #     # data['title'] = model_data.title
+    #     # data['content'] = model_data.content
+    #     # data['price'] = model_data.price
+    #     # data = model_to_dict(model_data)
+    #     # data = model_to_dict(model_data, fields=['id', 'title', 'content', 'price', 'sale_price'])
+    #     data = ProductsSerializer(instance).data
+    #     # json_data_string = json.dumps(data)
 
-    return Response(data)
-    return HttpResponse(json_data_string)
+        # return Response(serializer)
+    # return HttpResponse(json_data_string)
