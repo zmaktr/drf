@@ -27,5 +27,5 @@ class ProductsSerializer(serializers.ModelSerializer):
             return None
         if not isinstance(obj, Products):
             return None
-        return obj.get_discount()
+        return obj.holiday_price()
 
