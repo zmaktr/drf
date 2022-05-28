@@ -4,5 +4,8 @@
 			"path": "."
 		}
 	],
-	"settings": {"python.terminal.activateEnvironment": true}
+	"settings": {
+		"python.terminal.activateEnvironment": true,
+		"python.defaultInterpreterPath":"C:/Users/Dell/Desktop/Django Projects/drf/.env/Scripts/python.exe",
+	}
 }

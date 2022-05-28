@@ -11,7 +11,8 @@ class ProductsDetailAPIView(generics.RetrieveAPIView):
     # serializer_class attibute must be used to serialize data in json for the client          
     serializer_class = ProductsSerializer
 
-class ProductsCreateAPIView(generics.CreateAPIView):
+# class ProductsCreateAPIView(generics.CreateAPIView):
+class ProductsListCreateAPIView(generics.ListCreateAPIView):
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
 
@@ -29,4 +30,7 @@ class ProductsCreateAPIView(generics.CreateAPIView):
             content = title
         serializer.save(content=content)
 
-
+# class ProductsListAPIView(generics.ListAPIView):
+    
+#     queryset = Products.objects.all()              
+#     serializer_class = ProductsSerializer
