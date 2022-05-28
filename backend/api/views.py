@@ -13,14 +13,23 @@ from products.serializers import ProductsSerializer
 
 @api_view(["POST"])
 def api_home(request, *args, **kwargs):  
-
-    print(request.data)
+    
     serializer = ProductsSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
+        # instance = serializer.save()
+        # instance = form.save()
+        print(serializer.data)
         return Response(serializer.data)
-
+    return Response({"invalid": "not good dat"}, status=400)    
+    
+    """
+    # print(request.data)
+    # serializer = ProductsSerializer(data=request.data)
+    # if serializer.is_valid(raise_exception=True):
+    #     return Response(serializer.data)
+    """
         
-    return JsonResponse({"invalid" : "change the data input"})
+    # return JsonResponse({"invalid" : "change the data input"})
 
     # print(dir(request))
     # print(request)
