@@ -25,11 +25,18 @@ class ProductsUpdateAPIView(generics.UpdateAPIView):
         instance = serializer.save()
         if not instance.content:
             instance.content = instance.title
-            
+
 class ProductsDeleteAPIView(generics.DestroyAPIView):
     
     queryset = Products.objects.all()           
     serializer_class = ProductsSerializer
+
+    queryset = Products.objects.all()           
+    serializer_class = ProductsSerializer
+    lookup_field = 'pk'
+
+    def perform_destory(self, instance):
+        super().perform_destroy(instance)
 
 # class ProductsCreateAPIView(generics.CreateAPIView):
 class ProductsListCreateAPIView(generics.ListCreateAPIView):

@@ -1,7 +1,7 @@
 import requests
 
 # endpoint = "https://httpbin.org"
-endpoint = "http://localhost:8000/api/products/3"
+endpoint = "http://localhost:8000/api/products/11"
 
 get_response = requests.get(endpoint)
 # params={"abc": "parms data"}
