@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from . models import Products
 from . serializers import ProductsSerializer
 # rest framework
-from rest_framework import generics, mixins
+from rest_framework import generics, mixins, permissions, authentication
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -22,6 +22,7 @@ class ProductsUpdateAPIView(generics.UpdateAPIView):
     
     queryset = Products.objects.all()           
     serializer_class = ProductsSerializer
+    permission_classes = [permissions.DjangoModelPermissions]
     lookup_field = 'pk'
 
     def perform_update(self, serializer):
@@ -48,6 +49,9 @@ class ProductsDeleteAPIView(generics.DestroyAPIView):
 class ProductsListCreateAPIView(generics.ListCreateAPIView):
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
+    authentication_classes = [authentication.SessionAuthentication]
+    permission_classes = [permissions.DjangoModelPermissions]
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
         # serializer.save(user=self.request.user)
