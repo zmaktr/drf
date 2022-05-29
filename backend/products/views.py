@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 # project files
 from . models import Products
 from . serializers import ProductsSerializer
+from . permissions import IsStaffEditorPermission
 # rest framework
 from rest_framework import generics, mixins, permissions, authentication
 from rest_framework.decorators import api_view
@@ -50,8 +51,10 @@ class ProductsListCreateAPIView(generics.ListCreateAPIView):
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
     authentication_classes = [authentication.SessionAuthentication]
-    permission_classes = [permissions.DjangoModelPermissions]
+    # permission_classes = [permissions.DjangoModelPermissions]
     # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    # permission_classes = [IsStaffEditorPermission]
+    permission_classes = [permissions.IsAdminUser,  IsStaffEditorPermission]
 
     def perform_create(self, serializer):
         # serializer.save(user=self.request.user)
