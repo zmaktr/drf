@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 from . models import Products
 from . serializers import ProductsSerializer
 from . permissions import IsStaffEditorPermission
+# from api.authentication import TokenAuthentication
 # rest framework
 from rest_framework import generics, mixins, permissions, authentication
 from rest_framework.decorators import api_view
@@ -50,11 +51,13 @@ class ProductsDeleteAPIView(generics.DestroyAPIView):
 class ProductsListCreateAPIView(generics.ListCreateAPIView):
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
-    authentication_classes = [authentication.SessionAuthentication]
+    # authentication_classes = [authentication.SessionAuthentication]
+    authentication_classes = [authentication.SessionAuthentication, authentication.TokenAuthentication]
+    # authentication_classes = [authentication.SessionAuthentication, TokenAuthentication]
+    permission_classes = [permissions.IsAdminUser,  IsStaffEditorPermission]
     # permission_classes = [permissions.DjangoModelPermissions]
     # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     # permission_classes = [IsStaffEditorPermission]
-    permission_classes = [permissions.IsAdminUser,  IsStaffEditorPermission]
 
     def perform_create(self, serializer):
         # serializer.save(user=self.request.user)
