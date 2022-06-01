@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,6 +43,36 @@ INSTALLED_APPS = [
     'products',
     'rest_framework',
 ]
+
+# auth_classes = [        
+#     'rest_framework.authentication.SessionAuthentication',
+#     'rest_framework.authentication.TokenAuthentication',
+#     'api.authentication.TokenAuth'
+#     ]
+# if DEBUG:
+#     auth_classes = [
+#         'api.authentication.TokenAuth'
+#     ]
+
+REST_FRAMEWORK = {
+    # default rendere and parser settings
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ],
+    # custom authentication and permission settings
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # auth_classes,
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'api.authentication.TokenAuth',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly'
+    ],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

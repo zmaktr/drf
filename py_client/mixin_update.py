@@ -6,7 +6,7 @@ data = {
     "price" : 33.33,
 }
 
-endpoint = "http://localhost:8000/api/products/mixinupdate/20"
+endpoint = "http://localhost:8000/api/products/mixinupdate/21"
 
 get_response = requests.put(endpoint, json=data)
 

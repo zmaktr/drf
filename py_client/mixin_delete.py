@@ -8,7 +8,7 @@ import requests
 #     print(f"this product id is not valid")
 
 # if product_id:
-endpoint = "http://localhost:8000/api/products/mixindelete/9"
+endpoint = "http://localhost:8000/api/products/mixindelete/20"
 
 get_response = requests.delete(endpoint)
 
