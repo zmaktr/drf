@@ -9,7 +9,7 @@ headers = {
 }
 
 data={
-    "title":"peach",
+    "title":"pizza",
     "price": 2.25
 }
 
