@@ -1,7 +1,7 @@
 import requests
 
 # endpoint = "https://httpbin.org"
-endpoint = "http://localhost:8000/api/products/3/update/"
+endpoint = "http://localhost:8000/api/products/22/update/"
 
 data = {
     'title':'hello this world',
