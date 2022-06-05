@@ -71,6 +71,8 @@ class ProductsListCreateAPIView(generics.ListCreateAPIView):
         # if content is None that assigning title as content
         title = serializer.validated_data.get('title')
         content = serializer.validated_data.get('content') or None
+        # email = serializer.validated_data.pop('email')
+        # print(email)
         if content is None:
             content = title
         serializer.save(content=content)

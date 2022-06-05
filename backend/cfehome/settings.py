@@ -55,10 +55,6 @@ INSTALLED_APPS = [
 #     ]
 
 REST_FRAMEWORK = {
-    # default rendere and parser settings
-    'DEFAULT_PARSER_CLASSES': [
-        'rest_framework.parsers.JSONParser',
-    ],
     # custom authentication and permission settings
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # auth_classes,
