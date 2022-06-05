@@ -24,6 +24,7 @@ class ProductsSerializer(serializers.ModelSerializer):
     class Meta:
         model   = Products
         fields  = [
+            # 'user',
             'edit_url',
             'url',
             'url_link',
@@ -56,14 +57,14 @@ class ProductsSerializer(serializers.ModelSerializer):
     def get_url(self, obj):
         # return f"/api/products/{obj.pk}/"
         request = self.context.get('request')
-        print(request)
+        # print(request)
         if request is None:
             return None
         return reverse("product_detail", kwargs={"pk": obj.pk},  request=request)
 
     def get_edit_url(self, obj):
         request = self.context.get('request')
-        print(request)
+        # print(request)
         if request is None:
             return None
         return reverse("product_edit", kwargs={"pk": obj.pk},  request=request)

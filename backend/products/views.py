@@ -13,16 +13,16 @@ from rest_framework.response import Response
 #-------------------CLASS BASED VIEWS----------------------
 
 # ---retrive---
-class ProductsDetailAPIView(generics.RetrieveAPIView): 
+class ProductsDetailAPIView(generics.RetrieveAPIView):
     # queryset attibute must be used to query db in generic views
-    queryset = Products.objects.all()    
-    # serializer_class attibute must be used to serialize data in json for the client          
+    queryset = Products.objects.all()
+    # serializer_class attibute must be used to serialize data in json for the client
     serializer_class = ProductsSerializer
 
 # ---update---
 class ProductsUpdateAPIView(generics.UpdateAPIView):
-    
-    queryset = Products.objects.all()           
+
+    queryset = Products.objects.all()
     serializer_class = ProductsSerializer
     permission_classes = [permissions.DjangoModelPermissions]
     lookup_field = 'pk'
@@ -35,7 +35,7 @@ class ProductsUpdateAPIView(generics.UpdateAPIView):
 # ---delete ---
 class ProductsDeleteAPIView(generics.DestroyAPIView):
 
-    queryset = Products.objects.all()           
+    queryset = Products.objects.all()
     serializer_class = ProductsSerializer
     lookup_field = 'pk'
 
@@ -44,7 +44,7 @@ class ProductsDeleteAPIView(generics.DestroyAPIView):
 
 # ---list---
 # class ProductsListAPIView(generics.ListAPIView):
-#     queryset = Products.objects.all()              
+#     queryset = Products.objects.all()
 #     serializer_class = ProductsSerializer
 
 # ---create & list combined---
@@ -63,9 +63,12 @@ class ProductsListCreateAPIView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         # serializer.save(user=self.request.user)
-        print(serializer)
-        print(serializer.validated_data)
-        print(serializer.validated_data.get('title'))
+        # print("serializer")
+        # print(serializer)
+        # print("serializer.validated_data")
+        # print(serializer.validated_data)
+        # print("serializer.validated_data.get('title')")
+        # print(serializer.validated_data.get('title'))
         # serializer.save()
 
         # if content is None that assigning title as content
@@ -75,20 +78,30 @@ class ProductsListCreateAPIView(generics.ListCreateAPIView):
         # print(email)
         if content is None:
             content = title
-        serializer.save(content=content)
+        # serializer.save(content=content)
+        serializer.save(user=self.request.user, content=content)
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        # print(super().get_queryset(*args, **kwargs))
+        request = self.request
+        user = request.user
+        # print(request)
+        # print(request.user)
+        return qs.filter(user=request.user)
 
 
 
 #-------------------MIXINS VIEWS----------------------
 # Mixin provide basic view behaviour
 class ProductsMixinView(
-    mixins.ListModelMixin, 
-    mixins.RetrieveModelMixin, 
-    mixins.CreateModelMixin, 
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.CreateModelMixin,
     mixins.DestroyModelMixin,
-    mixins.UpdateModelMixin, 
+    mixins.UpdateModelMixin,
     generics.GenericAPIView):
-    
+
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
     lookup_field = 'pk'
@@ -99,7 +112,7 @@ class ProductsMixinView(
         pk = kwargs.get("pk")
         if pk is not None:
             return self.retrieve(request, *args, **kwargs)
-        else: 
+        else:
             return self.list(request, *args, **kwargs)
 # ---create---
     def post(self, request, *args, **kwargs):
@@ -109,7 +122,7 @@ class ProductsMixinView(
         # pk = kwargs.get("pk")
         # if pk is not None:
         return self.destroy(request, *args, **kwargs)
-        # else: 
+        # else:
         #     return Response("sdssd")
 # ---update---
     def put(self, request, *args, **kwargs):
@@ -152,4 +165,4 @@ def products_alt_view(request, pk=None, *args, **kwargs):
             serializer.save(content=content)
             print(serializer.data)
             return Response(serializer.data)
-        return Response({"invalid": "not good dat"}, status=400)   
+        return Response({"invalid": "not good dat"}, status=400)
