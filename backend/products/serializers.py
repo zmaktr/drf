@@ -5,26 +5,36 @@ from rest_framework.reverse import reverse
 
 from . models import Products
 from . import validators
+from api.serializers import UserPublicSerializer, UserProductInLineSerializer
+
 class ProductsSerializer(serializers.ModelSerializer):
-    eid_price   = serializers.SerializerMethodField(read_only=True)
+    
+    # related fields can be nested in json
+    user            = UserPublicSerializer(read_only=True)
+    # related_products= UserProductInLineSerializer(source='user.products_set.all', many=True, read_only=True) 
+
+    eid_price       = serializers.SerializerMethodField(read_only=True)
     
     # method -1 (for adding url field)
-    url         = serializers.SerializerMethodField(read_only=True)
-    edit_url    = serializers.SerializerMethodField(read_only=True)
+    url             = serializers.SerializerMethodField(read_only=True)
+    edit_url        = serializers.SerializerMethodField(read_only=True)
     # method -2 (for adding url field)
-    url_link    = serializers.HyperlinkedIdentityField(view_name='product_detail', lookup_field='pk') # HyperlinkedIdentityField works only with ModelSerializer otherwise use to above method
-    
-    # email       = serializers.EmailField(write_only=True)
+    url_link        = serializers.HyperlinkedIdentityField(view_name='product_detail', lookup_field='pk') # HyperlinkedIdentityField works only with ModelSerializer otherwise use to above method
     
     # validate title in validators.py
-    title = serializers.CharField(validators=[validators.validate_title, validators.validate_title_no_hello, validators.unique_product_title])
+    title           = serializers.CharField(validators=[validators.validate_title, validators.validate_title_no_hello, validators.unique_product_title])
 
     # add another field same as title field 
     title_duplicate = serializers.CharField(source='title', read_only=True)
+
+    email           = serializers.EmailField(source='user.email', read_only=True)
+
+
     class Meta:
         model   = Products
         fields  = [
-            # 'user',
+            'user',
+            'email',
             'edit_url',
             'url',
             'url_link',
@@ -35,6 +45,7 @@ class ProductsSerializer(serializers.ModelSerializer):
             'price', 
             'sale_price', 
             'eid_price',
+            # 'related_products',
             # 'email',
             ]
 
@@ -75,6 +86,7 @@ class ProductsSerializer(serializers.ModelSerializer):
     #     obj = super().create(validated_data)
     #     # print(email, obj)
     #     return obj
+
 
 
 
