@@ -45,6 +45,7 @@ class ProductsSerializer(serializers.ModelSerializer):
             'price', 
             'sale_price', 
             'eid_price',
+            'public'
             # 'related_products',
             # 'email',
             ]

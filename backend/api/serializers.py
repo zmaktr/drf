@@ -13,6 +13,7 @@ class UserPublicSerializer(serializers.Serializer):
 
     # foreign key relationship
     def get_other_products(self, obj):
+        print(obj)
         user            = obj
-        my_products_qs  = user.products_set.all()[:0]
+        my_products_qs  = user.products_set.all()[:1]
         return UserProductInLineSerializer(my_products_qs, many=True, context=self.context).data
