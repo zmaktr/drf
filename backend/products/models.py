@@ -1,11 +1,12 @@
+import random
 from django.db import models
 from django.conf import settings
 from django.db.models import Q
 
 User = settings.AUTH_USER_MODEL
 
-
-
+# add random tags to instances
+TAGS_MODELS_VALUES = ['electronics', 'cars', 'boats', 'movies', 'cameras']
 class ProductsQuerySet(models.QuerySet):
     
     def is_public(self):
@@ -15,7 +16,7 @@ class ProductsQuerySet(models.QuerySet):
         print(query, user)
         lookup = Q(title__icontains=query) | Q(content__icontains=query)
         qs = self.is_public().filter(lookup)
-        if user is not None:
+        if user is not None: 
             qs2= self.filter(user=user).filter(lookup)
             qs = (qs | qs2).distinct()
         return qs
@@ -42,6 +43,12 @@ class Products(models.Model):
 
     objects = ProductsManager()
     
+    # algolia filters and tags
+    def is_public(self):
+        return self.public
+    def get_tags(self):
+        return [random.choice(TAGS_MODELS_VALUES)]
+
     @property
     def sale_price(self):
         return "%.2f" %(float(self.price)*0.8)
