@@ -8,16 +8,19 @@ from . import client
 # search view with algolia api
 class SearchListViewAPI(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
+        # get variables from search
+        tag = request.GET.get('tag') or None
+        query = request.GET.get('q')
+        if not query:
+            return Response('empty query', status=400)
+        
+        # define facet filter used to narrow down search as deffined in products.index -> settings (public and user)
+        public = str(request.GET.get('public')) != "0"
         user = None
         if request.user.is_authenticated:
             user = request.user.username 
-        query = request.GET.get('q')
-        print(request.GET.get('public'))
-        public = str(request.GET.get('public')) != "0"
-        tag = request.GET.get('tag') or None
-        if not query:
-            return Response('empty query', status=400)
-        print(user, query, public, tag)
+
+        # peform search
         results = client.perform_search(query, tags=tag, user=user, public=public)
         return Response(results)
 

@@ -7,6 +7,7 @@ User = settings.AUTH_USER_MODEL
 
 # add random tags to instances
 TAGS_MODELS_VALUES = ['electronics', 'cars', 'boats', 'movies', 'cameras']
+
 class ProductsQuerySet(models.QuerySet):
     
     def is_public(self):
