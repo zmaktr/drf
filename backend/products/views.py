@@ -53,7 +53,7 @@ class ProductsListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = ProductsSerializer
     # authentication_classes = [] # overrides all global authentication in settings.py to None
     # authentication_classes = [authentication.SessionAuthentication] # authenticates an exiting user
-    authentication_classes = [authentication.SessionAuthentication, authentication.TokenAuthentication] # authenticates an existing user with token
+    # authentication_classes = [authentication.SessionAuthentication, authentication.TokenAuthentication] # authenticates an existing user with token
     # authentication_classes = [authentication.SessionAuthentication, TokenAuth]
     # permission_classes = [] # overrides all global permission in settings.py to None
     permission_classes = [permissions.IsAdminUser,  IsStaffEditorPermission]
